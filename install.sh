@@ -44,3 +44,6 @@ rm -f /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for
 
 # Run composer update once plugin is installed.
 php /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/composer.phar update
+
+# Fix permissions
+chmod -R 755 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
