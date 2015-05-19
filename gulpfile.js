@@ -1,6 +1,6 @@
 var gulp = require( 'gulp' );
-var gulpIgnore = require( 'gulp-ignore' );
-var zip = require( 'gulp-zip' );
+var tar = require( 'gulp-tar' );
+var gzip = require( 'gulp-gzip' );
 
 gulp.task( 'build', function () {
 	return gulp.src( [
@@ -14,6 +14,7 @@ gulp.task( 'build', function () {
 		'!./package.json',
 		'!./gulpfile.js'
 	], {base:'./'} )
-		.pipe( zip( 'ghcp-release.zip' ) )
+		.pipe( tar( 'ghcp-release.tar' ) )
+		.pipe( gzip() )
 		.pipe( gulp.dest( 'build' ) );
 } );

@@ -1,8 +1,9 @@
 {
   "devDependencies": {
     "gulp": "^3.8.11",
+    "gulp-gzip": "^1.1.0",
     "gulp-ignore": "^1.2.1",
-    "gulp-util": "^3.0.4",
-    "gulp-zip": "^3.0.2"
+    "gulp-tar": "^1.4.0",
+    "gulp-util": "^3.0.4"
   }
 }
