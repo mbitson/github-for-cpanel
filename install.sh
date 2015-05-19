@@ -24,6 +24,7 @@ else
 fi
 
 # Move to cPanel plugin folder
+rm -fR /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 mkdir /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 
 # CD to dir for plugin
