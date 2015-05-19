@@ -31,7 +31,7 @@ mkdir /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 cd /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 
 # Download the plugin archive
-wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O github_for_cpanel.tar.gz
+wget -q https://github.com/mbitson/github-for-cpanel/raw/master/build/ghcp-release.tar.gz -O github_for_cpanel.tar.gz
 
 # Extract archive
 tar -zxvf github_for_cpanel.tar.gz
