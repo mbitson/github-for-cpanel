@@ -31,6 +31,11 @@ class Application
 	protected $_cpanel;
 
 	/**
+	 * @var array Will contain the specific user's data in cpanel when loaded.
+	 */
+	public $_cpanel_userdata;
+
+	/**
 	 * Initialize GitHub for Cpanel Application
 	 */
 	public function __construct()
@@ -67,12 +72,12 @@ class Application
 		// Disconnect the cpanel integration instance
 		$this->_cpanel->end();
 
-		$this->_cpanel_userdata = $cpanel->uapi(                // Get domain user data.
+		$this->_cpanel_userdata = $this->_cpanel->uapi(                // Get domain user data.
 			'DomainInfo', 'domains_data',
 			array(
 				'format' => 'hash',
 			)
-		);;
+		);
 
 		// Return status!
 		return TRUE;
