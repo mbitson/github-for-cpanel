@@ -1,2 +1,4 @@
 # github-for-cpanel
-A soon-to-be repository that allows cPanel users to install GitHub repos into their public web directory and auto-deploy updates on hooks.
+This repository is a work in progress.
+
+A repository that allows cPanel users to install GitHub repos into their public web directory and auto-deploy updates on hooks.
