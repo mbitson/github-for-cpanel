@@ -30,7 +30,7 @@ mkdir /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for_cpanel.tar.gz
 
 # Extract archive
-tar -zxvf /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for_cpanel.tar.gz
+tar -zxvf /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for_cpanel.tar.gz -C /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 
 # Register plugin with cPanel
 /usr/local/cpanel/scripts/install_plugin /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel --theme paper_lantern
