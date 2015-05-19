@@ -23,13 +23,16 @@ else
     sudo composer self-update
 fi
 
+# Move to cPanel plugin folder
+cd /usr/local/cpanel/base/frontend/paper_lantern/
+
 # Download the plugin archive
-wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O ghcp-release.tar.gz
+wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O github_for_cpanel.tar.gz
+
+# Extract archive & Cleanup by removing release
+tar -zxvf github_for_cpanel.tar.gz && rm -f github_for_cpanel.tar.gz
 
 # Register plugin with cPanel
-/usr/local/cpanel/scripts/install_plugin ghcp-release.tar.gz --theme paper_lantern
-
-# Cleanup by removing release
-rm -f ghcp-release.tar.gz
+/usr/local/cpanel/scripts/install_plugin ~/github_for_cpanel --theme paper_lantern
 
 # TODO - Run composer update once plugin is installed.
