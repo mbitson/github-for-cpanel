@@ -24,10 +24,10 @@ else
 fi
 
 # Download the plugin archive
-wget https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O ghcp-release.tar.gz
+wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O ghcp-release.tar.gz
 
 # Register plugin with cPanel
-/usr/local/cpanel/scripts/install_plugin ghcp-release.tar.gz
+/usr/local/cpanel/scripts/install_plugin ghcp-release.tar.gz --theme paper_lantern
 
 # Cleanup by removing release
 rm -f ghcp-release.tar.gz

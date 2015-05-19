@@ -67,6 +67,13 @@ class Application
 		// Disconnect the cpanel integration instance
 		$this->_cpanel->end();
 
+		$this->_cpanel_userdata = $cpanel->uapi(                // Get domain user data.
+			'DomainInfo', 'domains_data',
+			array(
+				'format' => 'hash',
+			)
+		);;
+
 		// Return status!
 		return TRUE;
 	}
