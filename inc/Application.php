@@ -36,7 +36,7 @@ class Application
 	public function __construct()
 	{
 		// Include composer autoloader.
-		require_once 'vendor/autoload.php';
+		require_once GHCP_PLUGIN_PATH . 'vendor/autoload.php';
 	}
 
 	/**
