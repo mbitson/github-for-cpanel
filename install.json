@@ -7,7 +7,7 @@
     "name": "GitHub Integration",
     "type": "link",
     "id": "github_for_cpanel",
-    "uri": "github_for_cpanel/index.php",
+    "uri": "github_for_cpanel/index.live.php",
     "target": "_blank"
   }
 ]
