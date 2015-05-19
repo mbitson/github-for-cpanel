@@ -25,6 +25,8 @@ fi
 
 # Move to cPanel plugin folder
 mkdir /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
+
+# CD to dir for plugin
 cd /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 
 # Download the plugin archive
