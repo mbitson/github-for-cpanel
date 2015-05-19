@@ -7,7 +7,7 @@
     "name": "GitHub Integration",
     "type": "link",
     "id": "github_for_cpanel",
-    "uri": "http://github-for-cpanel.mbitson.com",
+    "uri": "github_for_cpanel/index.php",
     "target": "_blank"
   }
 ]

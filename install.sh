@@ -40,4 +40,4 @@ tar -zxvf github_for_cpanel.tar.gz
 rm -f github_for_cpanel.tar.gz
 
 # TODO - Run composer update once plugin is installed.
-composer.phar update
+php composer.phar update
