@@ -4,7 +4,6 @@ node_modules/
 bower_components/
 *.log
 
-build/
 dist/
 
 
@@ -59,3 +58,4 @@ crashlytics-build.properties
 
 
 vendor/
+composer.lock
