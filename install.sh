@@ -28,16 +28,16 @@ mkdir /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 cd /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 
 # Download the plugin archive
-wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O github_for_cpanel.tar.gz
+wget -q https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for_cpanel.tar.gz
 
 # Extract archive
-tar -zxvf github_for_cpanel.tar.gz
+tar -zxvf /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for_cpanel.tar.gz
 
 # Register plugin with cPanel
 /usr/local/cpanel/scripts/install_plugin /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel --theme paper_lantern
 
 #Cleanup by removing release
-rm -f github_for_cpanel.tar.gz
+rm -f /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/github_for_cpanel.tar.gz
 
 # TODO - Run composer update once plugin is installed.
-php composer.phar update
+php /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/composer.phar update
