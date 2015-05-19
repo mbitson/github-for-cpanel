@@ -21,8 +21,6 @@ $app = new GHCP\Application();
 
 // Output header, connect
 $app->start();
-
-var_dump($app->_cpanel_userdata);
 ?>
 
 	<form class="layout-medium">
