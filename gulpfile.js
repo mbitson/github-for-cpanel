@@ -10,7 +10,6 @@ gulp.task( 'build', function () {
 		'!./vendor',
 		'!./build',
 		'!./composer.lock',
-		'!./composer.phar',
 		'!./package.json',
 		'!./gulpfile.js'
 	], {base:'./'} )

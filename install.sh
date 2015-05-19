@@ -24,7 +24,7 @@ else
 fi
 
 # Download the plugin archive
-wget https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true
+wget https://github.com/mbitson/github-for-cpanel/blob/master/build/ghcp-release.tar.gz?raw=true -O ghcp-release.tar.gz
 
 # Register plugin with cPanel
 /usr/local/cpanel/scripts/install_plugin ghcp-release.tar.gz
