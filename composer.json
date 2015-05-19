@@ -1,0 +1,15 @@
+{
+  "name": "mbitson/github-for-cpanel",
+  "description": "A cpanel plugin that allows GitHub integration. Once a repo is configured, auto-deploy can be configured.",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mikel Bitson",
+      "email": "me@mbitson.com"
+    }
+  ],
+  "require": {
+    "knplabs/github-api": "1.4.8"
+  }
+}

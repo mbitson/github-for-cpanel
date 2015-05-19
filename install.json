@@ -1,0 +1,13 @@
+[
+  {
+    "icon": "icon.png",
+    "group_id": "files",
+    "description": "Allows you to install GitHub repositories into your cPanel account and auto-deploy any changes.",
+    "order": 0,
+    "name": "GitHub Integration",
+    "type": "link",
+    "id": "github_for_cpanel",
+    "uri": "http://github-for-cpanel.mbitson.com",
+    "target": "_blank"
+  }
+]
