@@ -1,6 +1,9 @@
 #!/bin/bash
 # Installation script for GitHub for cPanel plugin.
-# Will first check dependancies and install
+# Will first check dependancies and install,
+# notifying the user along the way.
+# @author - Mikel Bitson <me@mbitson.com>
+# @link - github-for-cpanel.mbitson.com
 
 # Check for Git
 command -v git >/dev/null 2>&1
