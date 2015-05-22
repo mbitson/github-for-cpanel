@@ -53,7 +53,7 @@ class Application
 		// Init a cpanel instnace.
 		$this->_cpanel = new \CPANEL();
 
-		// Print header per cpanel docs (I'd prefer echo, but will remain consistant with cPanel)
+		// Print header per cpanel docs (I'd prefer echo, but will remain consistent with cPanel)
 		print $this->_cpanel->header( 'GitHub' );
 
 		// Return status!
@@ -66,7 +66,7 @@ class Application
 	 */
 	public function stop()
 	{
-		// Print the footer (I'd prefer echo, but will remain consistant with cPanel)
+		// Print the footer (I'd prefer echo, but will remain consistent with cPanel)
 		print $this->_cpanel->footer();
 
 		// Disconnect the cpanel integration instance
@@ -74,6 +74,31 @@ class Application
 
 		// Return status!
 		return TRUE;
+	}
+
+	/**
+	 * A function to run the entire app- outputs header, page, and footer.
+	 * @return void
+	 */
+	public function run()
+	{
+		// Run the app, connect to cpanel, output header
+		$this->start();
+
+		// Parse the request and output the page.
+		$this->page();
+
+		// Output footer & disconnect from cpanel
+		$this->stop();
+	}
+
+	public function page()
+	{
+		// Obtain the router class
+		$router = new \GHCP\Router();
+
+		// Fire the router class
+		$router->route();
 	}
 
 	public function github()
