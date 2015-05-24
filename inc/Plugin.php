@@ -18,7 +18,7 @@ require_once("/usr/local/cpanel/php/cpanel.php");
  * @license  http://opensource.org/licenses/MIT	MIT License
  * @link     http://github-for-cpanel.mbitson.com
  */
-class Application 
+class Plugin
 {
 	/**
 	 * @var \Github\Client Will contain the (KNPLabs) GitHub API client when loaded.

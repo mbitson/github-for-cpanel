@@ -17,10 +17,10 @@ define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github
 // Include the composer autoloader
 require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
 
-// Init app
-$app = new GHCP\Application();
+// Init our plugin
+$plugin = new GHCP\Plugin();
 
 // Output header, connect, page, footer, disconnect
-$app->run();
+$plugin->run();
 
 // End of file index.php
