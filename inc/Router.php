@@ -70,7 +70,7 @@ class Router
         else
         {
             // Set default source code
-            $source = '<div style="margin: 100px auto;">No template file found.<br />Attempted To Load: ' . $this->_template_dir . $path . '</div>';
+            $source = '<div style="margin: 100px auto;"><strong>No template file found.</strong><br />Attempted To Load: ' . $this->_template_dir . $path . '</div>';
         }
 
         // Output source code
