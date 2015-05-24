@@ -6,6 +6,7 @@ gulp.task( 'build', function () {
 	return gulp.src( [
 		'./*',
 		'./inc/*',
+		'./templates/*',
 		'!./node_modules',
 		'!./vendor',
 		'!./build',
