@@ -38,6 +38,11 @@ class Application
     public $repo;
 
     /**
+     * @var bool Rather or not to install composer dependencies.
+     */
+    public $composer;
+
+    /**
      * @var string The directory applications are installed to.
      */
     private $_application_dir;
@@ -92,9 +97,6 @@ class Application
             // Return false to prevent view on current router instance
             return false;
         }
-
-
-
     }
 
     public function load($key)
@@ -102,9 +104,25 @@ class Application
         // Load an application by application key (domain-directory)
     }
 
+    /**
+     * Attempts to fill all public properties with values from passed array.
+     * @param array $data Array of data to set on this object.
+     */
     public function setData(array $data)
     {
-        // Set an array of data onto this object
+        // Get public (fillable) properties
+        $properties = array_keys(get_object_vars($this));
+
+        // For each of the properties...
+        foreach($properties as $property)
+        {
+            // If the passed data has this property...
+            if(in_array($property, array_keys($data)))
+            {
+                // Set this value
+                $this->{$property} = $data[$property];
+            }
+        }
     }
 
     public function create()
@@ -113,9 +131,49 @@ class Application
         return array('test'=>'test');
     }
 
-    public function save()
+    /**
+     * Function that will set passed data and post data to object and then store.
+     * @param null $data Array of data to set on new object
+     */
+    public function save($data = NULL)
     {
+        // Set post data onto object
+        if(!empty($_POST)){
+            $this->setData($_POST);
+        }
+
+        // Set passed data onto object
+        if(!is_null($data) && !empty($data)){
+            $this->setData($data);
+        }
+
+        // Set this key
+        $this->key = str_replace('/', '-', 'domainuser-'.$this->repo);
+
         // Save properties to json file
+        $this->store();
+
+        // Alert the user saved correctly
+        $this->alert('Your application has been created successfully!');
+
+        // Route to list page.
+        $router = new \GHCP\Router();
+        $router->route('application-list');
+    }
+
+    /**
+     * Function to save this model as a json file based on key.
+     */
+    public function store()
+    {
+        // Open an application file based on key
+        $applicationFile = fopen($this->key.'.json', "w") or die("Unable to open file! ".$this->key.'.json');
+
+        // Write our json into
+        fwrite($applicationFile, json_encode($this));
+
+        // Close write con
+        fclose($applicationFile);
     }
 
     /**

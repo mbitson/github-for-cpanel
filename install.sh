@@ -107,3 +107,4 @@ php /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/composer.pha
 # Fix permissions
 echo "Finalizing permissions..."
 chmod -R 755 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
+chmod -R 775 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/applications
