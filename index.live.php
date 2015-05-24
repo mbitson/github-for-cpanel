@@ -18,8 +18,7 @@ define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github
 require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
 
 // Init app
-use GHCP\Application;
-$app = new Application();
+$app = new GHCP\Application();
 
 // Output header, connect, page, footer, disconnect
 $app->run();
