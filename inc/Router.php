@@ -30,6 +30,11 @@ class Router
     private $_template_dir;
 
     /**
+     * @var array Userdata from cpanel live php api
+     */
+    public $cpanel_userdata;
+
+    /**
      * @var array Contains the routes for this particular system
      */
     private $_routes = array(
@@ -62,7 +67,7 @@ class Router
 	 * Function to determine path and render.
 	 * @return void
 	 */
-	public function route($path = NULL)
+	public function route($path = NULL, $requestMethod = NULL)
 	{
         // If a path is not passed
         if(is_null($path))
@@ -71,19 +76,22 @@ class Router
             $path = (isset($_GET['route'])?$_GET['route']:$this->_default_route);
         }
 
-
-        // Determine the request method
-        if(in_array($_SERVER['REQUEST_METHOD'],array_keys($this->_routes)))
+        // If the request method was not passed.
+        if(is_null($requestMethod))
         {
-            // Set the request method
-            $requestMethod = $_SERVER['REQUEST_METHOD'];
-        }
+            // Determine the request method
+            if(in_array($_SERVER['REQUEST_METHOD'],array_keys($this->_routes)))
+            {
+                // Set the request method
+                $requestMethod = $_SERVER['REQUEST_METHOD'];
+            }
 
-        // Else set the request method default
-        else
-        {
-            // To any
-            $requestMethod = 'ANY';
+            // Else set the request method default
+            else
+            {
+                // To any
+                $requestMethod = 'ANY';
+            }
         }
 
         // Determine if we have php to fire for this route
@@ -119,6 +127,9 @@ class Router
 
         // Set data var for the view
         $data = $this->_view_data;
+
+        // Set cpanel userdata for view
+        $userdata = $this->cpanel_userdata;
 
         // If data allows rendering...
         if($data !== FALSE)

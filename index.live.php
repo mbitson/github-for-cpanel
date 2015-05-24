@@ -14,8 +14,9 @@ error_reporting(-1);
 // Default plugin path
 define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/');
 
-// Include the composer autoloader
+// Include the composer autoloader & live.php file for integration
 require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
+require_once( GHCP_PLUGIN_PATH . 'inc/cPanel.live.php' );
 
 // Init our plugin
 $plugin = new GHCP\Plugin();

@@ -5,9 +5,27 @@
  * Date: 5/23/2015
  * Time: 11:00 PM
  */
+echo "<pre>";
+var_dump(\GHCP\cPanel::userdata());
+echo "</pre>";
 ?>
 <div class="callout callout-warning">
     This plugin is in an early stage and utilizing it <strong>will completely delete your current web files</strong> within the directory specified for application installation. Only use this for new accounts- do not use this on sites that are already working. <strong>Backup EVERYTHING.</strong>
+</div>
+<ol class="breadcrumb">
+    <li>
+        <a href="#">
+            <span class="glyphicon glyphicon-home"></span>
+            <span>cPanel</span>
+        </a>
+    </li>
+    <li><a href="index.live.php">Github Integration</a></li>
+    <li class="active"><a href="index.live.php?route=application-list">Applications</a></li>
+</ol>
+<div class="row">
+    <div class="col-xs-12">
+        <a href="index.live.php?route=application-create" class="btn btn-primary">Create New Application</a>
+    </div>
 </div>
 <div ng-controller="applicationCtrl" class="list-container">
     <table class="table table-striped responsive-table">
@@ -32,28 +50,53 @@
                     <span toggle-sort id="sortFirstName" sort-meta="meta"
                           sort-field="firstName"
                           onSort="sortList">
-                        Application Name
+                        Application Key
                     </span>
             </th>
             <th>
                     <span toggle-sort id="sortLastName" sort-meta="meta"
                           sort-field="lastName"
                           onSort="sortList">
-                        Last Name
+                        Directory
+                    </span>
+            </th>
+            <th>
+                    <span toggle-sort id="sortLastName" sort-meta="meta"
+                          sort-field="lastName"
+                          onSort="sortList">
+                        Repo
+                    </span>
+            </th>
+            <th>
+                    <span toggle-sort id="sortLastName" sort-meta="meta"
+                          sort-field="lastName"
+                          onSort="sortList">
+                        Branch
+                    </span>
+            </th>
+            <th>
+                    <span toggle-sort id="sortLastName" sort-meta="meta"
+                          sort-field="lastName"
+                          onSort="sortList">
+                        Composer
                     </span>
             </th>
             <th></th>
         </tr>
         </thead>
         <tbody>
+        <?php if(!empty($data['apps'])): ?>
         <?php foreach($data['apps'] as $app): ?>
             <tr>
                 <td class="checkColumn">
                     <input type="checkbox"
                            title="Select this application.">
                 </td>
-                <td data-title="Application Slug"><?php echo $app; ?></td>
-                <td data-title="Last Name"></td>
+                <td data-title="Application Key"><?php echo $app->key; ?></td>
+                <td data-title="Directory"><?php echo $app->directory; ?></td>
+                <td data-title="Repo"><?php echo $app->repo; ?></td>
+                <td data-title="Branch"><?php echo $app->branch; ?></td>
+                <td data-title="Composer"><?php echo $app->composer; ?></td>
                 <td data-title="">
                     <button class="btn btn-link">
                         <span class="glyphicon glyphicon-pencil"></span>
@@ -66,6 +109,7 @@
                 </td>
             </tr>
         <?php endforeach; ?>
+        <?php endif; ?>
         </tbody>
     </table>
 </div>

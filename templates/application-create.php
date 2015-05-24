@@ -8,6 +8,17 @@
 <div class="callout callout-warning">
     This plugin is in an early stage and utilizing it <strong>will completely delete your current web files</strong> within the directory specified for application installation. Only use this for new accounts- do not use this on sites that are already working. <strong>Backup EVERYTHING.</strong>
 </div>
+<ol class="breadcrumb">
+    <li>
+        <a href="#">
+            <span class="glyphicon glyphicon-home"></span>
+            <span>cPanel</span>
+        </a>
+    </li>
+    <li><a href="index.live.php">Github Integration</a></li>
+    <li><a href="index.live.php?route=application-list">Applications</a></li>
+    <li class="active"><a href="index.live.php?route=application-create">Create An Application</a></li>
+</ol>
 <form class="layout-medium" action="index.live.php?route=application-create" method="post">
 	<div class="form-group">
         <!--

@@ -75,10 +75,10 @@ class Application
             foreach($apps as &$app)
             {
                 // Remove the path from string
-                $app = str_replace($this->_application_dir, '', $app);
+                $app = file_get_contents($app);
 
                 // Remove the .json from string
-                $app = str_replace('.json', '', $app);
+                $app = json_decode($app);
             }
 
             // Return for view
@@ -134,6 +134,7 @@ class Application
     /**
      * Function that will set passed data and post data to object and then store.
      * @param null $data Array of data to set on new object
+     * @return false
      */
     public function save($data = NULL)
     {
@@ -158,7 +159,10 @@ class Application
 
         // Route to list page.
         $router = new \GHCP\Router();
-        $router->route('application-list');
+        $router->route('application-list', 'GET');
+
+        // Return false to prevent this router from rendering
+        return FALSE;
     }
 
     /**
@@ -167,7 +171,8 @@ class Application
     public function store()
     {
         // Open an application file based on key
-        $applicationFile = fopen($this->key.'.json', "w") or die("Unable to open file! ".$this->key.'.json');
+        $applicationFile = fopen( $this->_application_dir . $this->key . '.json', "w")
+            or die("Unable to open file! ".$this->key.'.json');
 
         // Write our json into
         fwrite($applicationFile, json_encode($this));

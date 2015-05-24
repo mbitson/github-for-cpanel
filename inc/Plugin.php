@@ -8,9 +8,6 @@
  */
 namespace GHCP;
 
-// Require the cpanel class to be loadable to integrate.
-require_once("/usr/local/cpanel/php/cpanel.php");
-
 /**
  * Plugin Class
  * Date: 5/19/2015
@@ -33,7 +30,7 @@ class Plugin
 	/**
 	 * @var array Will contain the specific user's data in cpanel when loaded.
 	 */
-	public $_cpanel_userdata;
+	public $cpanel_userdata;
 
 	/**
 	 * Start cPanel integration, output header of paper lantern.
@@ -46,6 +43,13 @@ class Plugin
 
 		// Print header per cpanel docs (I'd prefer echo, but will remain consistent with cPanel)
 		print $this->_cpanel->header( 'GitHub' );
+
+        $this->cpanel_userdata = $this->_cpanel->uapi(                // Get domain user data.
+            'DomainInfo', 'domains_data',
+            array(
+                'format'    => 'hash',
+            )
+        );
 
 		// Return status!
 		return TRUE;
