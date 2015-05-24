@@ -30,6 +30,25 @@ class Router
     private $_template_dir;
 
     /**
+     * @var array Contains the routes for this particular system
+     */
+    private $_routes = array(
+        'GET' => array(
+            'application-create' => 'Application::create'
+        ),
+        'POST' => array(
+            'application-create' => 'Application::save'
+        ),
+        'ANY'   => array(
+        ),
+    );
+
+    /**
+     * @var array Contains the data to be used in the view
+     */
+    private $_view_data;
+
+    /**
      * Function to set default template directory
      */
     public function __construct()
@@ -47,6 +66,39 @@ class Router
 		// Get the current path from $_GET or property
 		$path = (isset($_GET['route'])?$_GET['route']:$this->_default_route);
 
+        // Determine the request method
+        if(in_array($_SERVER['REQUEST_METHOD'],array_keys($this->_routes)))
+        {
+            // Set the request method
+            $requestMethod = $_SERVER['REQUEST_METHOD'];
+        }
+
+        // Else set the request method default
+        else
+        {
+            // To any
+            $requestMethod = 'ANY';
+        }
+
+        // Determine if we have php to fire for this route
+        if(in_array($path, array_keys($this->_routes[$requestMethod])))
+        {
+            // Get the string to fire
+            $toExecute = $this->_routes[$requestMethod][$path];
+
+            // Explode on ::
+            $executePieces = explode('::', $toExecute);
+
+            // Add namespace to class piece.
+            $executePieces[0] = '\GHCP\\'.$executePieces[0];
+
+            // Init new object
+            $obj = new $executePieces[0]();
+
+            // Fire method suggested
+            $this->_view_data = $obj->{$executePieces[1]}();
+        }
+
 		// Render this route.
 		$this->render($path);
 	}
@@ -59,11 +111,20 @@ class Router
         // All templates utilize .php
         $path .= '.php';
 
+        // Set data var for the view
+        $data = $this->_view_data;
+
         // If the file exists
         if(file_exists( $this->_template_dir . $path ))
         {
-            // Get the template file's source
-            $source = file_get_contents( $this->_template_dir . $path );
+            // Start stream buffering
+            ob_start();
+
+            // Include the template file
+            include( $this->_template_dir . $path );
+
+            // Get the output source
+            $source = ob_get_clean();
         }
 
         // Else, if no template file is found

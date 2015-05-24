@@ -1,6 +1,6 @@
 <?php
 /**
- * Application Class File
+ * Plugin Class File
  * PHP Version 5
  * @author   NeXt I.T. - Mikel Bitson <me@mbitson.com>
  * @license  http://opensource.org/licenses/MIT	MIT License
@@ -12,7 +12,7 @@ namespace GHCP;
 require_once("/usr/local/cpanel/php/cpanel.php");
 
 /**
- * Application Class
+ * Plugin Class
  * Date: 5/19/2015
  * @author   NeXt I.T. - Mikel Bitson <me@mbitson.com>
  * @license  http://opensource.org/licenses/MIT	MIT License
