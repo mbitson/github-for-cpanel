@@ -36,15 +36,6 @@ class Application
 	public $_cpanel_userdata;
 
 	/**
-	 * Initialize GitHub for Cpanel Application
-	 */
-	public function __construct()
-	{
-		// Include composer autoloader.
-		require_once GHCP_PLUGIN_PATH . 'vendor/autoload.php';
-	}
-
-	/**
 	 * Start cPanel integration, output header of paper lantern.
 	 * @return bool Return status
 	 */
