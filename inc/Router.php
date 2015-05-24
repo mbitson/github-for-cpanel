@@ -22,7 +22,7 @@ class Router
 	/**
 	 * @var string The default template to load up for this route
 	 */
-	private $_default_route = 'application-create';
+	private $_default_route = 'application-list';
 
     /**
      * @var string The template directory to load from
@@ -34,10 +34,11 @@ class Router
      */
     private $_routes = array(
         'GET' => array(
-            'application-create' => 'Application::create'
+            'application-create' => 'Application::create',
+            'application-list' => 'Application::apps',
         ),
         'POST' => array(
-            'application-create' => 'Application::save'
+            'application-create' => 'Application::save',
         ),
         'ANY'   => array(
         ),
@@ -61,10 +62,15 @@ class Router
 	 * Function to determine path and render.
 	 * @return void
 	 */
-	public function route()
+	public function route($path = NULL)
 	{
-		// Get the current path from $_GET or property
-		$path = (isset($_GET['route'])?$_GET['route']:$this->_default_route);
+        // If a path is not passed
+        if(is_null($path))
+        {
+            // Get the current path from $_GET or property
+            $path = (isset($_GET['route'])?$_GET['route']:$this->_default_route);
+        }
+
 
         // Determine the request method
         if(in_array($_SERVER['REQUEST_METHOD'],array_keys($this->_routes)))
@@ -114,28 +120,31 @@ class Router
         // Set data var for the view
         $data = $this->_view_data;
 
-        // If the file exists
-        if(file_exists( $this->_template_dir . $path ))
+        // If data allows rendering...
+        if($data !== FALSE)
         {
-            // Start stream buffering
-            ob_start();
+            // If the file exists
+            if(file_exists( $this->_template_dir . $path ))
+            {
+                // Start stream buffering
+                ob_start();
 
-            // Include the template file
-            include( $this->_template_dir . $path );
+                // Include the template file
+                include( $this->_template_dir . $path );
 
-            // Get the output source
-            $source = ob_get_clean();
+                // Get the output source
+                $source = ob_get_clean();
+            }
+
+            // Else, if no template file is found
+            else
+            {
+                // Set default source code
+                $source = '<div style="margin: 100px auto;"><strong>No template file found.</strong><br />Attempted To Load: ' . $this->_template_dir . $path . '</div>';
+            }
+
+            // Output source code
+            echo $source;
         }
-
-        // Else, if no template file is found
-        else
-        {
-            // Set default source code
-            $source = '<div style="margin: 100px auto;"><strong>No template file found.</strong><br />Attempted To Load: ' . $this->_template_dir . $path . '</div>';
-        }
-
-        // Output source code
-        echo $source;
 	}
-
 }

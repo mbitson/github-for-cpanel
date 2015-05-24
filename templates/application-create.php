@@ -5,9 +5,12 @@
  * Date: 5/21/2015
  */
 ?>
-
+<div class="callout callout-warning">
+    This plugin is in an early stage and utilizing it <strong>will completely delete your current web files</strong> within the directory specified for application installation. Only use this for new accounts- do not use this on sites that are already working. <strong>Backup EVERYTHING.</strong>
+</div>
 <form class="layout-medium">
 	<div class="form-group">
+        <!--
 		<div class="row">
 			<div class="col-xs-12">
 				<label for="provider-github">Please select a Git repo provider.</label>
@@ -27,6 +30,7 @@
 				</div>
 			</div>
 		</div>
+		-->
 		<div class="row">
 			<div class="col-xs-12">
 				<label for="repository">Repository Name</label>
