@@ -11,13 +11,15 @@ error_reporting(-1);
  * Date: 5/19/2015
  */
 
+// Default plugin path
 define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/');
 
 // Include the composer autoloader
 require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
 
 // Init app
-$app = new GHCP\Application();
+use GHCP\Application;
+$app = new Application();
 
 // Output header, connect, page, footer, disconnect
 $app->run();
