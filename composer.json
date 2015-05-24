@@ -11,5 +11,8 @@
   ],
   "require": {
     "knplabs/github-api": "1.4.8"
+  },
+  "autoload": {
+    "psr-0": {"GHCP": "inc/"}
   }
 }

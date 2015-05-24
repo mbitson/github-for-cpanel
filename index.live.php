@@ -13,16 +13,13 @@ error_reporting(-1);
 
 define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/');
 
-// Include application class
-require_once( GHCP_PLUGIN_PATH . 'inc/Application.live.php' );
+// Include the composer autoloader
+require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
 
 // Init app
 $app = new GHCP\Application();
 
-// Output header, connect
+// Output header, connect, page, footer, disconnect
 $app->run();
-
-// Output footer, disconnect
-$app->stop();
 
 // End of file index.php

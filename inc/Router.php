@@ -24,6 +24,20 @@ class Router
 	 */
 	private $_default_route = 'application-create';
 
+    /**
+     * @var string The template directory to load from
+     */
+    private $_template_dir;
+
+    /**
+     * Function to set default template directory
+     */
+    public function __construct()
+    {
+        // Set default template directory
+        $this->_template_dir = GHCP_PLUGIN_PATH . 'templates/';
+    }
+
 	/**
 	 * Function to determine path and render.
 	 * @return void
@@ -37,9 +51,27 @@ class Router
 		$this->render($path);
 	}
 
+    /**
+     * @param $path The template to load from the template directory.
+     */
 	public function render($path)
 	{
-		echo include()
+        // If the file exists
+        if(file_exists( $this->_template_dir . $path ))
+        {
+            // Get the template file's source
+            $source = file_get_contents( $this->_template_dir . $path );
+        }
+
+        // Else, if no template file is found
+        else
+        {
+            // Set default source code
+            $source = '<div style="margin: 100px auto;">No template file found.</div>';
+        }
+
+        // Output source code
+        echo $source;
 	}
 
 }
