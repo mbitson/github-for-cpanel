@@ -56,6 +56,9 @@ class Router
      */
 	public function render($path)
 	{
+        // All templates utilize .php
+        $path .= '.php';
+
         // If the file exists
         if(file_exists( $this->_template_dir . $path ))
         {
