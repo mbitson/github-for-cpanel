@@ -13,6 +13,6 @@
     "knplabs/github-api": "1.4.8"
   },
   "autoload": {
-    "psr-0": {"GHCP": "inc/"}
+    "psr-4": {"GHCP": "inc/"}
   }
 }
