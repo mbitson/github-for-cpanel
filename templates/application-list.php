@@ -95,10 +95,10 @@
                 <td data-title="Branch"><?php echo $app->branch; ?></td>
                 <td data-title="Composer"><?php echo $app->composer; ?></td>
                 <td data-title="">
-                    <button class="btn btn-link">
+                    <a href="index.live.php?route=application-delete&key=<?php echo $app->key; ?>" class="btn btn-link">
                         <span class="fa fa-upload"></span>
                         Deploy
-                    </button>
+                    </a>
                     <a href="index.live.php?route=application-delete&key=<?php echo $app->key; ?>" class="btn btn-link">
                         <span class="glyphicon glyphicon-trash"></span>
                         Delete
