@@ -38,9 +38,14 @@ class Application
     public $repo;
 
     /**
-     * @var bool Rather or not to install composer dependencies.
+     * @var string Rather or not to install composer dependencies.
      */
     public $composer;
+
+    /**
+     * @var string Rather or not this repo is private and should use ssh.
+     */
+    public $private;
 
     /**
      * @var string The directory applications are installed to.
@@ -265,10 +270,10 @@ class Application
         if(isset($_POST['private']) && $_POST['private'] === 'on')
         {
             // Add deploy key to github account
-            $this->addGithubDeployKey();
+            $privateKey = $this->addGithubDeployKey();
 
             // Checkout github repo to deployment path with ssh
-            shell_exec('/usr/bin/git clone ssh://github.com/'.$this->repo.'.git '.$deploymentPath);
+            shell_exec("ssh-agent bash -c 'ssh-add $privateKey; /usr/bin/git clone git@github.com:$this->repo.git $deploymentPath'");
         }
 
         // If public repo
@@ -285,10 +290,10 @@ class Application
         shell_exec('/usr/bin/git checkout '.$this->branch);
 
         // If composer dependencies are set to yes
-        if($this->composer === 'on')
+        if($this->composer === 'on' && chdir($deploymentPath))
         {
             // Run composer update
-            shell_exec('/usr/local/bin/php composer.phar update');
+            shell_exec('/usr/local/bin/php '.GHCP_PLUGIN_PATH.'composer.phar update');
         }
 
 
@@ -404,10 +409,7 @@ class Application
         }
 
         // Generate the key pair
-        shell_exec('ssh-keygen -b 2048 -t rsa -f /root/.ssh/'.$this->key.' -q -N ""');
-
-        // Add private key to ssh-client
-        shell_exec('ssh-add '.$privateKey);
+        shell_exec('ssh-keygen -b 2048 -t rsa -f '.$privateKey.' -q -N ""');
 
         // Initialize github api into protected property.
         $this->_github = new \Github\Client();
@@ -422,10 +424,13 @@ class Application
         $keys = $currentUser->keys();
 
         // Create this new key!
-        var_dump($keys->create(array(
-            'title'=>$this->key,
+        $keys->create(array(
+            'title'=>'GitHub for cPanel - '.$this->key,
             'key'=>file_get_contents($publicKey)
-        )));
+        ));
+
+        // Return private key
+        return $privateKey;
     }
 
     /**
