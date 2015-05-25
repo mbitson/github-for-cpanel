@@ -113,7 +113,7 @@ class Application
         $data = file_get_contents($this->_application_dir . $key . '.json');
 
         // Json decode string into array
-        $data = json_decode($data);
+        $data = (array) json_decode($data);
 
         // Set data onto app
         $this->setData($data);
