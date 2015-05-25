@@ -89,7 +89,7 @@ cd /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 echo "Downloading plugin..."
 wget -q https://github.com/mbitson/github-for-cpanel/raw/master/build/ghcp-release.tar.gz -O github_for_cpanel.tar.gz
 
-# Extract archive
+# Extract archive zip
 echo "Extracting plugin..."
 tar -zxf github_for_cpanel.tar.gz
 
