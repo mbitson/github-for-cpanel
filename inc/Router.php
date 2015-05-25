@@ -41,6 +41,7 @@ class Router
         'GET' => array(
             'application-create' => 'Application::create',
             'application-list' => 'Application::apps',
+            'application-delete' => 'Application::delete',
         ),
         'POST' => array(
             'application-create' => 'Application::save',

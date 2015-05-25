@@ -71,9 +71,6 @@ class Application
         // If we found apps
         if(!empty($apps))
         {
-            // Apps found!
-            $this->alert('Applications found for this cPanel account!');
-
             // Cleanup on each app
             foreach($apps as &$app)
             {
@@ -91,6 +88,9 @@ class Application
         // If we found no apps...
         else
         {
+            // Alert the user that they must create an appliction
+            $this->alert('No applications found for your cPanel user. Please create one below.');
+
             // Get router for routing to the create page
             $router = new \GHCP\Router();
 
@@ -105,6 +105,20 @@ class Application
     public function load($key)
     {
         // Load an application by application key (domain-directory)
+        // Create a new application object
+        $app = new \GHCP\Application();
+
+        // Load data from json file
+        $data = file_get_contents($this->_application_dir . $key);
+
+        // Json decode string into array
+        $data = json_decode($data);
+
+        // Set data onto app
+        $app->setData($data);
+
+        // Return loaded application
+        return $app;
     }
 
     /**
@@ -160,6 +174,9 @@ class Application
         // Save properties to json file
         $this->store();
 
+        // Setup this instance!
+        $this->setup();
+
         // Alert the user saved correctly
         $this->alert('Your application has been created successfully!');
 
@@ -187,6 +204,66 @@ class Application
         fclose($applicationFile);
     }
 
+    public function delete()
+    {
+        // Attempt to get a key from query string
+        if(isset($_GET['key']) && is_numeric((int)$_GET['key']))
+        {
+            // Store the key
+            $key = $_GET['key'];
+        }
+
+        // Else throw an error!
+        else
+        {
+            // Display not allowed, return false to prevent view
+            echo "<h2>Not Allowed.</h2>";
+            return false;
+        }
+
+        // Delete the file for this key
+        if(unlink($this->_application_dir . $key . '.json'))
+        {
+            echo "Deleted";
+            // Display the success
+            $this->alert('Application Deleted Successfully! You will need to manually remove or replace the files the application installed.');
+        }
+
+        // If the file couldn't be deleted...
+        else
+        {
+            echo "Not deleted";
+            // Alert the user with a warning, couldn't delete
+            $this->warning( 'Your application file could not be deleted. Please delete it manually with one of the following commands: <br/>
+                <strong>rm -f ' . $this->_application_dir . $this->key . '.json' . '</strong><br />
+                <strong>sudo rm -f ' . $this->_application_dir . $this->key . '.json' . '</strong>' );
+        }
+
+        // Reroute to list page
+        $router = new \GHCP\Router();
+        $router->route('application-list');
+
+        // Return false to prevent this view from being rendered
+        return false;
+    }
+
+
+    public function setup($key)
+    {
+        var_dump($this);
+        exit;
+        // Delete current contents of dir
+        // rmdir( $this->_application_dir . '' );
+
+        // checkout repo
+        // fix permissions
+        // install composer dependencies if checked
+        // later - install the deploy script
+        // later - setup github hook to point to deploy script
+
+        // Return success
+    }
+
     /**
      * A function to display a message to the user
      * @param $message The message to alert to the user
@@ -199,6 +276,24 @@ class Application
             <span class=\"glyphicon glyphicon-ok-sign\"></span>
             <div class=\"alert-message\">
                 <strong>Success:</strong>
+                $message
+            </div>
+        </div>
+        ";
+    }
+
+    /**
+     * A function to display a warning to the user
+     * @param $message The message to warn the user about
+     */
+    public function warning($message)
+    {
+        echo "
+        <div class=\"alert alert-warning alert-dismissable\">
+            <button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-hidden=\"true\">&times;</button>
+            <span class=\"glyphicon glyphicon-ok-sign\"></span>
+            <div class=\"alert-message\">
+                <strong>Warning:</strong>
                 $message
             </div>
         </div>

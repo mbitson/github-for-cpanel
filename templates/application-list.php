@@ -5,10 +5,10 @@
  * Date: 5/23/2015
  * Time: 11:00 PM
  */
-global $userdata;
-echo "<pre>";
-var_dump($userdata);
-echo "</pre>";
+//global $userdata;
+//echo "<pre>";
+//var_dump($userdata);
+//echo "</pre>";
 ?>
 <div class="callout callout-warning">
     This plugin is in an early stage and utilizing it <strong>will completely delete your current web files</strong> within the directory specified for application installation. Only use this for new accounts- do not use this on sites that are already working. <strong>Backup EVERYTHING.</strong>
@@ -100,13 +100,13 @@ echo "</pre>";
                 <td data-title="Composer"><?php echo $app->composer; ?></td>
                 <td data-title="">
                     <button class="btn btn-link">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        Edit
+                        <span class="fa fa-upload"></span>
+                        Deploy
                     </button>
-                    <button class="btn btn-link">
+                    <a href="index.live.php?route=application-delete&key=<?php echo $app->key; ?>" class="btn btn-link">
                         <span class="glyphicon glyphicon-trash"></span>
                         Delete
-                    </button>
+                    </a>
                 </td>
             </tr>
         <?php endforeach; ?>

@@ -17,6 +17,10 @@ define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github
 // Include the composer autoloader & live.php file for integration
 require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
 
+// I would like to do this in a better way...
+// but for now I've got to load in the cPanel
+// userdata in a .live.php file and make it
+// globally accessible.
 // Save user's data to the global var
 require_once("/usr/local/cpanel/php/cpanel.php");
 

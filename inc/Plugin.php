@@ -46,6 +46,8 @@ class Plugin
 		// Print header per cpanel docs (I'd prefer echo, but will remain consistent with cPanel)
 		print $this->_cpanel->header( 'GitHub' );
 
+        print '<link rel="stylesheet" type="text/css" href="css/styles.css">';
+
 		// Return status!
 		return TRUE;
 	}
