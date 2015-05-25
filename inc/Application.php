@@ -102,12 +102,13 @@ class Application
         }
     }
 
+    /**
+     * A function to load in data for a particular key.
+     * @param $key The key to load data for.
+     * @return $this This object with loaded data from the key.
+     */
     public function load($key)
     {
-        // Load an application by application key (domain-directory)
-        // Create a new application object
-        $app = new \GHCP\Application();
-
         // Load data from json file
         $data = file_get_contents($this->_application_dir . $key);
 
@@ -115,10 +116,10 @@ class Application
         $data = json_decode($data);
 
         // Set data onto app
-        $app->setData($data);
+        $this->setData($data);
 
         // Return loaded application
-        return $app;
+        return $this;
     }
 
     /**
@@ -176,9 +177,6 @@ class Application
 
         // Setup this instance!
         $this->setup();
-
-        // Alert the user saved correctly
-        $this->alert('Your application has been created successfully!');
 
         // Route to list page.
         $router = new \GHCP\Router();
@@ -245,7 +243,10 @@ class Application
         return false;
     }
 
-
+    /**
+     * Function to do initial installation of this application.
+     * @return void
+     */
     public function setup()
     {
         // Make userdata accessable
@@ -257,21 +258,91 @@ class Application
         // Delete current contents of dir
         $this->deleteDirectory( $deploymentPath );
 
+        // Create empty folder for repo
         mkdir($deploymentPath);
 
-        echo shell_exec('/usr/bin/git clone https://github.com/'.$this->repo.'.git '.$deploymentPath.' 2>&1');
-        echo shell_exec('cd '.$deploymentPath);
-        echo shell_exec('/usr/bin/git pull development');
-        exit;
+        // Checkout github repo to deployment path
+        shell_exec('/usr/bin/git clone https://github.com/'.$this->repo.'.git '.$deploymentPath);
 
-        // Checkout Repo
-        // Checkout specific branch
-        // fix permissions
-        // install composer dependencies if checked
+        // Change directory to deployment path to operate on repo
+        chdir($deploymentPath);
+
+        // Checkout the specified branch
+        shell_exec('/usr/bin/git checkout '.$this->branch);
+
+        // If composer dependencies are set to yes
+        if($this->composer === 'on')
+        {
+            // Run composer update
+            shell_exec('/usr/local/bin/php composer.phar update');
+        }
+
         // later - install the deploy script
         // later - setup github hook to point to deploy script
 
-        // Return success
+        // Alert the user that this worked!
+        $this->alert('Your repo has been checked out successfully! You may now use the deploy button to automatically checkout the latest changes for this application.');
+    }
+
+    /**
+     * A function to deploy this application.
+     * Assumes setup() was already run on this application.
+     * @return void
+     */
+    public function deploy()
+    {
+        // Make userdata accessable
+        global $userdata;
+
+        // Get deployment path
+        $deploymentPath = $userdata['homedir'].'/'.$this->directory;
+
+        // Change directory to deployment path to operate on repo
+        chdir($deploymentPath);
+
+        // Update this git repo
+        shell_exec('/usr/bin/git pull');
+
+        // If composer dependencies are set to yes
+        if($this->composer === 'on')
+        {
+            // Run composer update
+            shell_exec('/usr/local/bin/php composer.phar update');
+        }
+
+        // Alert success
+        $this->alert('Successfully deployed '.$this->key.'!');
+    }
+
+    public function deployByKey()
+    {
+        // Attempt to get a key from query string
+        if(isset($_GET['key']) && is_numeric((int)$_GET['key']))
+        {
+            // Store the key
+            $key = $_GET['key'];
+        }
+
+        // Else throw an error!
+        else
+        {
+            // Display not allowed, return false to prevent view
+            echo "<h2>Not Allowed.</h2>";
+            return false;
+        }
+
+        // Load this application's data
+        $this->load($key);
+
+        // Deploy this application
+        $this->deploy();
+
+        // Reroute to list page
+        $router = new \GHCP\Router();
+        $router->route('application-list');
+
+        // Return false to prevent this view
+        return FALSE;
     }
 
     public function deleteDirectory($dir) {
