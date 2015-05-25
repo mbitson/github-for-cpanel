@@ -89,7 +89,7 @@ cd /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
 echo "Downloading plugin..."
 wget -q https://github.com/mbitson/github-for-cpanel/raw/master/build/ghcp-release.tar.gz -O github_for_cpanel.tar.gz
 
-# Extract archive
+# Extract archive zip
 echo "Extracting plugin..."
 tar -zxf github_for_cpanel.tar.gz
 
@@ -107,5 +107,5 @@ php /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/composer.pha
 # Fix permissions
 echo "Finalizing permissions..."
 chmod -R 755 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel
-chmod -R 775 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/applications
-chmod -R 775 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/ssh
+chmod -R 777 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/applications
+chmod -R 777 /usr/local/cpanel/base/frontend/paper_lantern/github_for_cpanel/ssh
