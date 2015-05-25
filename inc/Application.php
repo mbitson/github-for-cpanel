@@ -110,7 +110,7 @@ class Application
     public function load($key)
     {
         // Load data from json file
-        $data = file_get_contents($this->_application_dir . $key);
+        $data = file_get_contents($this->_application_dir . $key . '.json');
 
         // Json decode string into array
         $data = json_decode($data);
