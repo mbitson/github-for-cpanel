@@ -92,16 +92,4 @@ class Plugin
 		// Fire the router class
 		$router->route();
 	}
-
-	public function github()
-	{
-		// Initialize github api into protected property.
-		$this->_github = new \Github\HttpClient\CachedHttpClient();
-
-		// Configure cache for this github instance to avoid rate limit hits.
-		$this->_github->setCache(
-			new \Github\HttpClient\Cache\FilesystemCache('/tmp/github-api-cache')
-		);
-
-	}
 }

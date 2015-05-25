@@ -88,6 +88,38 @@
                         </label>
                     </div>
                 </div>
+                <div class="col-xs-12 col-md-4 label-cont">
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="private" name="private">
+                            This is a private repo
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-4 label-cont">
+                    <label for="repository">GitHub Username</label><br />
+                    <small>(Only if private repo)</small>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <div class="input-group">
+                        <input type="text" placeholder="username" class="form-control" name="gh_username" id="gh-username">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-4 label-cont">
+                    <label for="repository">GitHub Password</label><br />
+                    <small>(Only if private repo)</small>
+                </div>
+                <div class="col-xs-12 col-md-8">
+                    <div class="input-group">
+                        <input type="password" class="form-control" name="gh_password" id="gh-password">
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-12 col-md-4 label-cont">

@@ -261,8 +261,22 @@ class Application
         // Create empty folder for repo
         mkdir($deploymentPath);
 
-        // Checkout github repo to deployment path
-        shell_exec('/usr/bin/git clone https://github.com/'.$this->repo.'.git '.$deploymentPath);
+        // If private repo
+        if(isset($_POST['private']) && $_POST['private'] === 'on')
+        {
+            // Add deploy key to github account
+            $this->addGithubDeployKey();
+
+            // Checkout github repo to deployment path with ssh
+            shell_exec('/usr/bin/git clone ssh://github.com/'.$this->repo.'.git '.$deploymentPath);
+        }
+
+        // If public repo
+        else
+        {
+            // Checkout github repo to deployment path
+            shell_exec('/usr/bin/git clone https://github.com/'.$this->repo.'.git '.$deploymentPath);
+        }
 
         // Change directory to deployment path to operate on repo
         chdir($deploymentPath);
@@ -276,6 +290,7 @@ class Application
             // Run composer update
             shell_exec('/usr/local/bin/php composer.phar update');
         }
+
 
         // later - install the deploy script
         // later - setup github hook to point to deploy script
@@ -366,6 +381,51 @@ class Application
         }
 
         return rmdir($dir);
+    }
+
+    public function addGithubDeployKey()
+    {
+        // Determine public and private key paths
+        $privateKey = GHCP_PLUGIN_PATH.'ssh/'.$this->key;
+        $publicKey = GHCP_PLUGIN_PATH.'ssh/'.$this->key.'.pub';
+
+        // If an old private key exists
+        if(file_exists($privateKey))
+        {
+            // Delete it
+            unlink($privateKey);
+        }
+
+        // If an old public key exists
+        if(file_exists($publicKey))
+        {
+            // Delete it
+            unlink($publicKey);
+        }
+
+        // Generate the key pair
+        shell_exec('ssh-keygen -b 2048 -t rsa -f /root/.ssh/'.$this->key.' -q -N ""');
+
+        // Add private key to ssh-client
+        shell_exec('ssh-add '.$privateKey);
+
+        // Initialize github api into protected property.
+        $this->_github = new \Github\Client();
+
+        // Login to github
+        $this->_github->authenticate($_POST['gh_username'], $_POST['gh_password']);
+
+        // Get the current user
+        $currentUser = $this->_github->me();
+
+        // Get the keys object
+        $keys = $currentUser->keys();
+
+        // Create this new key!
+        var_dump($keys->create(array(
+            'title'=>$this->key,
+            'key'=>file_get_contents($publicKey)
+        )));
     }
 
     /**
