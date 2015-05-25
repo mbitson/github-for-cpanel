@@ -224,7 +224,6 @@ class Application
         // Delete the file for this key
         if(unlink($this->_application_dir . $key . '.json'))
         {
-            echo "Deleted";
             // Display the success
             $this->alert('Application Deleted Successfully! You will need to manually remove or replace the files the application installed.');
         }
@@ -232,7 +231,6 @@ class Application
         // If the file couldn't be deleted...
         else
         {
-            echo "Not deleted";
             // Alert the user with a warning, couldn't delete
             $this->warning( 'Your application file could not be deleted. Please delete it manually with one of the following commands: <br/>
                 <strong>rm -f ' . $this->_application_dir . $this->key . '.json' . '</strong><br />
@@ -248,20 +246,55 @@ class Application
     }
 
 
-    public function setup($key)
+    public function setup()
     {
-        var_dump($this);
-        exit;
-        // Delete current contents of dir
-        // rmdir( $this->_application_dir . '' );
+        // Make userdata accessable
+        global $userdata;
 
-        // checkout repo
+        // Get deployment path
+        $deploymentPath = $userdata['homedir'].'/'.$this->directory;
+
+        // Delete current contents of dir
+        $this->deleteDirectory( $deploymentPath );
+
+        mkdir($deploymentPath);
+
+        echo shell_exec('/usr/bin/git clone https://github.com/'.$this->repo.'.git '.$deploymentPath.' 2>&1');
+        echo shell_exec('cd '.$deploymentPath);
+        echo shell_exec('/usr/bin/git pull development');
+        exit;
+
+        // Checkout Repo
+        // Checkout specific branch
         // fix permissions
         // install composer dependencies if checked
         // later - install the deploy script
         // later - setup github hook to point to deploy script
 
         // Return success
+    }
+
+    public function deleteDirectory($dir) {
+        if (!file_exists($dir)) {
+            return true;
+        }
+
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+
+        }
+
+        return rmdir($dir);
     }
 
     /**
