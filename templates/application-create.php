@@ -6,7 +6,7 @@
  */
 ?>
 <div class="callout callout-warning">
-    This plugin is in an early stage and utilizing it <strong>will completely delete your current web files</strong> within the directory specified for application installation. Only use this for new accounts- do not use this on sites that are already working. <strong>Backup EVERYTHING.</strong>
+    This plugin is in an early stage and utilizing it <strong>will completely delete your current web files</strong> within the directory specified for application installation. Only use this for new accounts- do not use this on sites that are already working. <strong>Backup EVERYTHING.<br />Public GitHub repos only, for now.</strong>
 </div>
 <ol class="breadcrumb">
     <li>

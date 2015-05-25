@@ -102,23 +102,24 @@ class Application
         }
     }
 
+    /**
+     * A function to load in data for a particular key.
+     * @param $key The key to load data for.
+     * @return $this This object with loaded data from the key.
+     */
     public function load($key)
     {
-        // Load an application by application key (domain-directory)
-        // Create a new application object
-        $app = new \GHCP\Application();
-
         // Load data from json file
-        $data = file_get_contents($this->_application_dir . $key);
+        $data = file_get_contents($this->_application_dir . $key . '.json');
 
         // Json decode string into array
-        $data = json_decode($data);
+        $data = (array) json_decode($data);
 
         // Set data onto app
-        $app->setData($data);
+        $this->setData($data);
 
         // Return loaded application
-        return $app;
+        return $this;
     }
 
     /**
@@ -177,9 +178,6 @@ class Application
         // Setup this instance!
         $this->setup();
 
-        // Alert the user saved correctly
-        $this->alert('Your application has been created successfully!');
-
         // Route to list page.
         $router = new \GHCP\Router();
         $router->route('application-list', 'GET');
@@ -224,7 +222,6 @@ class Application
         // Delete the file for this key
         if(unlink($this->_application_dir . $key . '.json'))
         {
-            echo "Deleted";
             // Display the success
             $this->alert('Application Deleted Successfully! You will need to manually remove or replace the files the application installed.');
         }
@@ -232,7 +229,6 @@ class Application
         // If the file couldn't be deleted...
         else
         {
-            echo "Not deleted";
             // Alert the user with a warning, couldn't delete
             $this->warning( 'Your application file could not be deleted. Please delete it manually with one of the following commands: <br/>
                 <strong>rm -f ' . $this->_application_dir . $this->key . '.json' . '</strong><br />
@@ -247,21 +243,129 @@ class Application
         return false;
     }
 
-
-    public function setup($key)
+    /**
+     * Function to do initial installation of this application.
+     * @return void
+     */
+    public function setup()
     {
-        var_dump($this);
-        exit;
-        // Delete current contents of dir
-        // rmdir( $this->_application_dir . '' );
+        // Make userdata accessable
+        global $userdata;
 
-        // checkout repo
-        // fix permissions
-        // install composer dependencies if checked
+        // Get deployment path
+        $deploymentPath = $userdata['homedir'].'/'.$this->directory;
+
+        // Delete current contents of dir
+        $this->deleteDirectory( $deploymentPath );
+
+        // Create empty folder for repo
+        mkdir($deploymentPath);
+
+        // Checkout github repo to deployment path
+        shell_exec('/usr/bin/git clone https://github.com/'.$this->repo.'.git '.$deploymentPath);
+
+        // Change directory to deployment path to operate on repo
+        chdir($deploymentPath);
+
+        // Checkout the specified branch
+        shell_exec('/usr/bin/git checkout '.$this->branch);
+
+        // If composer dependencies are set to yes
+        if($this->composer === 'on')
+        {
+            // Run composer update
+            shell_exec('/usr/local/bin/php composer.phar update');
+        }
+
         // later - install the deploy script
         // later - setup github hook to point to deploy script
 
-        // Return success
+        // Alert the user that this worked!
+        $this->alert('Your repo has been checked out successfully! You may now use the deploy button to automatically checkout the latest changes for this application.');
+    }
+
+    /**
+     * A function to deploy this application.
+     * Assumes setup() was already run on this application.
+     * @return void
+     */
+    public function deploy()
+    {
+        // Make userdata accessable
+        global $userdata;
+
+        // Get deployment path
+        $deploymentPath = $userdata['homedir'].'/'.$this->directory;
+
+        // Change directory to deployment path to operate on repo
+        chdir($deploymentPath);
+
+        // Update this git repo
+        shell_exec('/usr/bin/git pull');
+
+        // If composer dependencies are set to yes
+        if($this->composer === 'on')
+        {
+            // Run composer update
+            shell_exec('/usr/local/bin/php composer.phar update');
+        }
+
+        // Alert success
+        $this->alert('Successfully deployed '.$this->key.'!');
+    }
+
+    public function deployByKey()
+    {
+        // Attempt to get a key from query string
+        if(isset($_GET['key']) && is_numeric((int)$_GET['key']))
+        {
+            // Store the key
+            $key = $_GET['key'];
+        }
+
+        // Else throw an error!
+        else
+        {
+            // Display not allowed, return false to prevent view
+            echo "<h2>Not Allowed.</h2>";
+            return false;
+        }
+
+        // Load this application's data
+        $this->load($key);
+
+        // Deploy this application
+        $this->deploy();
+
+        // Reroute to list page
+        $router = new \GHCP\Router();
+        $router->route('application-list');
+
+        // Return false to prevent this view
+        return FALSE;
+    }
+
+    public function deleteDirectory($dir) {
+        if (!file_exists($dir)) {
+            return true;
+        }
+
+        if (!is_dir($dir)) {
+            return unlink($dir);
+        }
+
+        foreach (scandir($dir) as $item) {
+            if ($item == '.' || $item == '..') {
+                continue;
+            }
+
+            if (!$this->deleteDirectory($dir . DIRECTORY_SEPARATOR . $item)) {
+                return false;
+            }
+
+        }
+
+        return rmdir($dir);
     }
 
     /**

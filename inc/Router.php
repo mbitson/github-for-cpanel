@@ -42,6 +42,7 @@ class Router
             'application-create' => 'Application::create',
             'application-list' => 'Application::apps',
             'application-delete' => 'Application::delete',
+            'application-deploy' => 'Application::deployByKey',
         ),
         'POST' => array(
             'application-create' => 'Application::save',
