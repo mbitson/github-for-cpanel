@@ -5,8 +5,9 @@
  * Date: 5/23/2015
  * Time: 11:00 PM
  */
+global $userdata;
 echo "<pre>";
-var_dump(\GHCP\cPanel::userdata());
+var_dump($userdata);
 echo "</pre>";
 ?>
 <div class="callout callout-warning">

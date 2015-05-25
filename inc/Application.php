@@ -62,8 +62,11 @@ class Application
      */
     public function apps()
     {
-        // Load list of applications
-        $apps = glob($this->_application_dir.'*.json');
+        // Get global userdata
+        global $userdata;
+
+        // Load list of applications for this particular user.
+        $apps = glob( $this->_application_dir . $userdata['user'] . '-*.json' );
 
         // If we found apps
         if(!empty($apps))
@@ -148,8 +151,11 @@ class Application
             $this->setData($data);
         }
 
+        // Get the username
+        global $userdata;
+
         // Set this key
-        $this->key = str_replace('/', '-', 'domainuser-'.$this->repo);
+        $this->key = str_replace('/', '-', $userdata['user'].'-'.$this->repo);
 
         // Save properties to json file
         $this->store();

@@ -16,10 +16,26 @@ define('GHCP_PLUGIN_PATH', '/usr/local/cpanel/base/frontend/paper_lantern/github
 
 // Include the composer autoloader & live.php file for integration
 require_once( GHCP_PLUGIN_PATH . 'vendor/autoload.php' );
-require_once( GHCP_PLUGIN_PATH . 'inc/cPanel.live.php' );
+
+// Save user's data to the global var
+require_once("/usr/local/cpanel/php/cpanel.php");
+
+// Create new cpanel object to integrate.
+$cpanel = new \CPANEL();
+
+// Request this user's domain info.
+$userdata = $cpanel->uapi(                // Get domain user data.
+    'DomainInfo', 'domains_data',
+    array(
+        'format'    => 'hash',
+    )
+);
+
+// Select only the main domain
+$userdata = $userdata['cpanelresult']['result']['data']['main_domain'];
 
 // Init our plugin
-$plugin = new GHCP\Plugin();
+$plugin = new GHCP\Plugin($cpanel);
 
 // Output header, connect, page, footer, disconnect
 $plugin->run();

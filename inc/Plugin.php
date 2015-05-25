@@ -32,24 +32,19 @@ class Plugin
 	 */
 	public $cpanel_userdata;
 
+    public function __construct(\CPANEL $CPANEL)
+    {
+        $this->_cpanel = $CPANEL;
+    }
+
 	/**
 	 * Start cPanel integration, output header of paper lantern.
 	 * @return bool Return status
 	 */
 	public function start()
 	{
-		// Init a cpanel instnace.
-		$this->_cpanel = new \CPANEL();
-
 		// Print header per cpanel docs (I'd prefer echo, but will remain consistent with cPanel)
 		print $this->_cpanel->header( 'GitHub' );
-
-        $this->cpanel_userdata = $this->_cpanel->uapi(                // Get domain user data.
-            'DomainInfo', 'domains_data',
-            array(
-                'format'    => 'hash',
-            )
-        );
 
 		// Return status!
 		return TRUE;
