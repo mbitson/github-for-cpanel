@@ -48,6 +48,11 @@ class Application
     public $private;
 
     /**
+     * @var string Path to private key file
+     */
+    public $privateKey;
+
+    /**
      * @var string The directory applications are installed to.
      */
     private $_application_dir;
@@ -270,10 +275,10 @@ class Application
         if(isset($_POST['private']) && $_POST['private'] === 'on')
         {
             // Add deploy key to github account
-            $privateKey = $this->addGithubDeployKey();
+            $this->addGithubDeployKey();
 
             // Checkout github repo to deployment path with ssh
-            shell_exec("ssh-agent bash -c 'ssh-add $privateKey; /usr/bin/git clone git@github.com:$this->repo.git $deploymentPath'");
+            shell_exec("ssh-agent bash -c 'ssh-add $this->privateKey; /usr/bin/git clone git@github.com:$this->repo.git $deploymentPath'");
         }
 
         // If public repo
@@ -320,14 +325,25 @@ class Application
         // Change directory to deployment path to operate on repo
         chdir($deploymentPath);
 
-        // Update this git repo
-        shell_exec('/usr/bin/git pull');
+        // If private repo
+        if(isset($this->private) && $this->private === 'on')
+        {
+            // Checkout github repo to deployment path with ssh
+            shell_exec("ssh-agent bash -c 'ssh-add $this->privateKey; /usr/bin/git pull'");
+        }
+
+        // If public repo
+        else
+        {
+            // Update this git repo
+            shell_exec('/usr/bin/git pull');
+        }
 
         // If composer dependencies are set to yes
-        if($this->composer === 'on')
+        if($this->composer === 'on' && chdir($deploymentPath))
         {
             // Run composer update
-            shell_exec('/usr/local/bin/php composer.phar update');
+            shell_exec('/usr/local/bin/php '.GHCP_PLUGIN_PATH.'composer.phar update');
         }
 
         // Alert success
@@ -429,8 +445,11 @@ class Application
             'key'=>file_get_contents($publicKey)
         ));
 
-        // Return private key
-        return $privateKey;
+        // Update this private key
+        $this->privateKey = $privateKey;
+
+        // Resave the application
+        $this->store();
     }
 
     /**
