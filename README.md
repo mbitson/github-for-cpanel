@@ -4,8 +4,8 @@ This repository is a work in progress. It's extremely limited and not yet recomm
 A repository that allows cPanel users to install GitHub repos into their public web directory and auto-deploy updates on hooks.
 
 Please note, this plugin will install the following on your server if it is not already installed:
-Git
-Composer
+[x] Git
+[x] Composer
 
 # Installation Instructions
 ```
