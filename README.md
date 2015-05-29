@@ -8,12 +8,15 @@ Git
 Composer
 
 # Installation Instructions
+```
 wget -q https://raw.githubusercontent.com/mbitson/github-for-cpanel/master/install.sh -O github-for-cpanel.sh
 sh github-for-cpanel.sh
 rm -f github-for-cpanel.sh
+```
 
 # Uninstall Instructions
+```
 wget -q https://raw.githubusercontent.com/mbitson/github-for-cpanel/master/uninstall.sh -O github-for-cpanel.sh
 sh github-for-cpanel.sh
 rm -f github-for-cpanel.sh
-
+```
